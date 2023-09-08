@@ -79,18 +79,15 @@ class StringConverter(ThemedTk):
         else:
             # If item is not selected - select it 
             self.listbox.selection_set(index)
-
+    
     def convert_string(self, input_str):
-        if input_str.islower():
-            return input_str.upper()
-        elif input_str.isupper():
-            return input_str.lower()
-        elif '_' not in input_str and any(x.isupper() for x in input_str):
-            words = re.findall(r'[A-Z]?[a-z]+|[A-Z]+[0-9]*|[A-Z]+(?=[A-Z]|$)', input_str)  # Include numbers in word pattern
-            result = '_'.join(word.upper() for word in words)
-        else:
+        if '_' in input_str:
             words = [word.capitalize() for word in input_str.lower().split('_')]
             result = ''.join(words)
+            # Make sure the first letter is lower case
+            result = result[0].lower() + result[1:]
+        else:
+            result = input_str.lower()
 
         return result
 
