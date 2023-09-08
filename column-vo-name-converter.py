@@ -5,10 +5,13 @@ import re
 
 class StringConverter(ThemedTk):
     def __init__(self):
-        super().__init__(theme="arc")  # Use the "arc" theme
+        super().__init__(theme="arc")
 
         self.title('Column And VO Name Converter')
-        self.iconbitmap('nameConverter.ico')
+        try:
+            self.iconbitmap('nameConverter.ico')
+        except tk.TclError:
+            pass  # Ignore if icon file is not available
         self.create_widgets()
 
     def create_widgets(self):
@@ -121,7 +124,7 @@ class StringConverter(ThemedTk):
             print("Error: The number of input and output lines do not match.")
             return
 
-        formatted_items = [f',{line} = {item}' for line, item in zip(lines, items)]
+        formatted_items = [f',{line} = #{{{item}}}' for line, item in zip(lines, items)]
 
         # Clear the text box before adding new results
         self.text.delete('1.0', 'end')
