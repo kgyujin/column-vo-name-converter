@@ -23,9 +23,9 @@ pyinstaller --onefile --noconsole column-vo-name-converter.py
 
 
 ## 사용 방법
-![처음 실행 화면](initial_screen.png)
+![처음 실행 화면](initial-screen.png)
 
-![동작 화면](action_screen.gif)
+![동작 화면](action-screen.gif)
 
 1. **컬럼명/VO명 입력**  
    응용 프로그램 왼쪽의 텍스트 필드에 컬럼 이름 또는 VO 이름을 입력하세요.

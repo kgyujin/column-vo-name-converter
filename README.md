@@ -23,9 +23,9 @@ pyinstaller --onefile --noconsole column-vo-name-converter.py
 
 
 ## Application Usage
-![Initial Application Screen](initial_screen.png)
+![Initial Application Screen](initial-screen.png)
 
-![Application in Action](action_screen.gif)
+![Application in Action](action-screen.gif)
 
 1. **Enter Column Name/VO Name**  
    Start by entering the column names or VO names into the text field on the left side of the application.
