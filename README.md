@@ -1,4 +1,7 @@
 # Column Name/VO Name(DAO) Converter
+- [ENGLISH](README.md)
+- [KOREAN](README-kr.md)
+
 This application allows you to easily convert between column names and VO names (DAO) with just a few clicks and copy-paste operations!  
 It's a handy tool for database developers and administrators who frequently need to switch between different naming conventions.
 
@@ -20,7 +23,9 @@ pyinstaller --onefile --noconsole column-vo-name-converter.py
 
 
 ## Application Usage
-![application image](application.png)
+![Initial Application Screen](initial_screen.png)
+
+![Application in Action](action_screen.gif)
 
 1. **Enter Column Name/VO Name**  
    Start by entering the column names or VO names into the text field on the left side of the application.
