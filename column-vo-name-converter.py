@@ -43,8 +43,8 @@ class StringConverter(ThemedTk):
         self.comma_button = ttk.Button(self.button_frame,text='Add Comma',command=self.add_comma)
         self.comma_button.grid(row=0, column=4)
 
-        # Add new 'Format' button 
-        self.format_vo_button = ttk.Button(master=self.button_frame,text='get VO',command=self.format_vo)
+        # Add new 'Format' button
+        self.format_vo_button = ttk.Button(master=self.button_frame,text='Set Format',command=self.open_format_vo_window)
         self.format_vo_button.grid(row=0, column=5)
 
         # Add 'Select All' button with toggle functionality
@@ -60,7 +60,7 @@ class StringConverter(ThemedTk):
         self.reset_button.grid(row=0, column=8)
 
         self.text = tk.Text(self)
-        self.text.pack(side=tk.LEFT, fill=tk.Y)
+        self.text.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
 
         # Create a Listbox for the results.
         self.listbox = tk.Listbox(self, selectmode=tk.MULTIPLE)
@@ -177,10 +177,38 @@ class StringConverter(ThemedTk):
                 if item:  # Only add non-empty lines to the list box
                     self.listbox.insert(tk.END,item)
 
-    def format_vo(self):
+    def open_format_vo_window(self):
+        # Create a new top level window.
+        format_vo_window = tk.Toplevel(self)
+        
+        # Create labels and entry fields for the prefix and suffix.
+        prefix_label = ttk.Label(format_vo_window, text='Prefix:')
+        prefix_label.pack()
+        
+        prefix_entry = ttk.Entry(format_vo_window)
+        prefix_entry.pack()
+        
+        suffix_label = ttk.Label(format_vo_window, text='Suffix:')
+        suffix_label.pack()
+        
+        suffix_entry = ttk.Entry(format_vo_window)
+        suffix_entry.pack()
+
+        # Create an 'OK' button that will retrieve the inputs and close the window.
+        ok_button = ttk.Button(
+            format_vo_window,
+            text='OK',
+            command=lambda: (
+                self.format_custom(prefix_entry.get(), suffix_entry.get()),
+                format_vo_window.destroy()  # Close the window after formatting.
+            )
+        )
+        ok_button.pack()
+
+    def format_custom(self, prefix, suffix):
         lines = self.text.get('1.0', 'end').splitlines()
         
-        formatted_lines = [f'childList.add(vo2.get{line}());' for line in lines if line]  # Only format non-empty lines
+        formatted_lines = [f'{prefix}{line}{suffix}' for line in lines if line]  # Format non-empty lines with custom prefix and suffix.
 
         # Clear the list box before adding new results
         self.listbox.delete(0,'end')
