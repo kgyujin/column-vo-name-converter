@@ -26,29 +26,38 @@ class StringConverter(ThemedTk):
         self.result_button = ttk.Button(self.button_frame, text='Convert', command=self.show_result)
         self.result_button.grid(row=0, column=0)
 
+        # Add 'First Letter Capitalize' button 
+        # This button will convert the first letter of each string to uppercase and display it in the list box.
+        self.first_letter_capitalize_button = ttk.Button(self.button_frame,text='Capitalize',command=self.first_letter_capitalize)
+        self.first_letter_capitalize_button.grid(row=0, column=1)
+
         # Convert to Column Format #{}
         self.format_button = ttk.Button(self.button_frame, text='#{} Convert', command=self.format_result)
-        self.format_button.grid(row=0, column=1)
+        self.format_button.grid(row=0, column=2)
 
         # Convert to Column Format #{} for Update DAO
-        self.format_button = ttk.Button(self.button_frame, text='#{} Convert(U)', command=self.format_result_update)
-        self.format_button.grid(row=0, column=2)
+        self.format_button = ttk.Button(self.button_frame, text='Update #{}', command=self.format_result_update)
+        self.format_button.grid(row=0, column=3)
 
         # Add comma button 
         self.comma_button = ttk.Button(self.button_frame,text='Add Comma',command=self.add_comma)
-        self.comma_button.grid(row=0, column=3)
+        self.comma_button.grid(row=0, column=4)
+
+        # Add new 'Format' button 
+        self.format_vo_button = ttk.Button(master=self.button_frame,text='get VO',command=self.format_vo)
+        self.format_vo_button.grid(row=0, column=5)
 
         # Add 'Select All' button with toggle functionality
         self.selectall_button = ttk.Button(self.button_frame,text='Select All',command=self.toggle_select_all)
-        self.selectall_button.grid(row=0, column=4)
+        self.selectall_button.grid(row=0, column=6)
 
         # Add 'Always on Top' button with toggle functionality
         self.always_on_top_button = ttk.Button(self.button_frame,text='Pin',command=self.toggle_always_on_top)
-        self.always_on_top_button.grid(row=0, column=5)
+        self.always_on_top_button.grid(row=0, column=7)
 
         # Create a 'Reset' button
         self.reset_button = ttk.Button(self.button_frame, text='Reset', command=self.reset)
-        self.reset_button.grid(row=0, column=6)
+        self.reset_button.grid(row=0, column=8)
 
         self.text = tk.Text(self)
         self.text.pack(side=tk.LEFT, fill=tk.Y)
@@ -105,6 +114,17 @@ class StringConverter(ThemedTk):
             if line:  # Only add non-empty lines to the list box
                 self.listbox.insert(tk.END,line)
 
+    def first_letter_capitalize(self):
+        lines=self.text.get('1.0', 'end').splitlines()
+        capitalized_lines=[line[0].upper() + line[1:] for line in lines if line]  # Only capitalize non-empty lines
+
+        # Clear the list box before adding new results
+        self.listbox.delete(0,'end')
+
+        for line in capitalized_lines:
+            if line:  # Only add non-empty lines to the list box
+                self.listbox.insert(tk.END,line)
+
     def format_result(self):
         items = self.listbox.get(0, tk.END)
         formatted_items = [f'#{{{item}}}' for item in items]  # Modify to '#{item}'
@@ -157,6 +177,18 @@ class StringConverter(ThemedTk):
                 if item:  # Only add non-empty lines to the list box
                     self.listbox.insert(tk.END,item)
 
+    def format_vo(self):
+        lines = self.text.get('1.0', 'end').splitlines()
+        
+        formatted_lines = [f'childList.add(vo2.get{line}());' for line in lines if line]  # Only format non-empty lines
+
+        # Clear the list box before adding new results
+        self.listbox.delete(0,'end')
+
+        for line in formatted_lines:
+            if line:  # Only add non-empty lines to the list box
+                self.listbox.insert(tk.END,line)
+
     def toggle_select_all(self):
         # Check if all items are selected
         if self.listbox.curselection() == tuple(range(self.listbox.size())):
@@ -167,7 +199,7 @@ class StringConverter(ThemedTk):
             # If not all items are selected, select all
             self.listbox.select_set(0, tk.END)
             self.selectall_button.config(text='Disabled Select All')
-    
+
     def toggle_always_on_top(self):
         if not bool(self.attributes('-topmost')):
             # If window is not always on top, make it always on top.
